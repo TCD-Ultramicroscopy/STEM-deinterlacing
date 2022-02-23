@@ -6,6 +6,13 @@ from generate_distortions import get_distortions
 
 from distort_image import distort_image
 
+
+def deinterlace(image, interlacing_factor, axis=0):
+    output = np.repeat(image, interlacing_factor, axis=axis)
+
+    output[1:-1:2, :] = (output[1:-1:2, :] + output[2::2, :]) / 2
+    return output
+
 #
 # Define input variables
 #
@@ -47,20 +54,44 @@ out_size = (512, 512)  # crop image to avoid ege artefacts from distortion shift
 
 waves = get_distortions(n_freq=n_freq, freq_range=freq_range, amp_range=amp_range, reuse=True, save=True)
 
-for dt, nf in zip(dwell_times, num_frames):
-    out_images, out_dist_x, out_dist_y = distort_image(in_image, out_size, waves, dt, flyback_time, nf, drift_vec,
-                                                       interlace=interlace, dose=dose, do_rotation=do_rotation,
-                                                       plot_outputs=plot_outputs)
+for do_int in [True, False]:
+    for do_rot in [False, True]:
+        for dt, nf in zip(dwell_times, num_frames):
+            if do_int:
+                nf *= 2
 
-    out_stack = np.zeros((nf, out_images[0].shape[0], out_images[0].shape[1]), dtype=np.float64)
+            out_images, out_dist_x, out_dist_y = distort_image(in_image, out_size, waves, dt, flyback_time, nf, drift_vec,
+                                                               interlace=do_int, dose=dose, do_rotation=do_rot,
+                                                               plot_outputs=plot_outputs)
 
-    for i in range(nf):
-        out_stack[i, ...] = out_images[i]
+            out_stack = np.zeros((nf, out_size[0], out_size[0]), dtype=np.float64)
 
-    if not os.path.exists('output'):
-        os.mkdir('output')
+            for i in range(nf):
+                if do_int:
+                    if do_rot:
+                        ax = i % 2
+                    else:
+                        ax = 0
+                    out_stack[i, ...] = deinterlace(out_images[i], 2, axis=ax)
+                else:
+                    out_stack[i, ...] = out_images[i]
 
-    dt_str = f'{dt}'.replace('.', '-')
+            if not os.path.exists('output'):
+                os.mkdir('output')
 
-    with open(os.path.join('output', f"image_nf_{nf:03}_dt_{dt_str}.npy"), "wb") as f:
-        np.save(f, out_stack)
+            folder_name = ''
+            if do_int:
+                folder_name += 'int'
+            else:
+                folder_name += 'full'
+
+            if do_rot:
+                folder_name += '_rot'
+
+            if not os.path.exists(os.path.join('output', folder_name)):
+                os.mkdir(os.path.join('output', folder_name))
+
+            dt_str = f'{dt}'.replace('.', '-')
+
+            with open(os.path.join(os.path.join('output', folder_name), f"image_nf_{nf:03}_dt_{dt_str}.npy"), "wb") as f:
+                np.save(f, out_stack)
