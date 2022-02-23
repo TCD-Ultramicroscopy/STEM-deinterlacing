@@ -1,5 +1,6 @@
 import numpy as np
 import scipy.interpolate as sci_interp
+import matplotlib.pyplot as plt
 
 #
 # The sublattice class is a convenient way to store the peak data
@@ -11,10 +12,10 @@ class Sublattice:
         self.amplitude = amplitude
 
         self.px_rad = int(self.fwhm * 2)
-        sz = 50
+        sz = 51
         inc = self.px_rad * 2 / sz
-        self.y = np.arange(-self.px_rad, self.px_rad + inc, inc)
-        self.x = np.arange(-self.px_rad, self.px_rad + inc, inc)
+        self.y = np.linspace(-self.px_rad, self.px_rad, num=sz, endpoint=True)
+        self.x = np.linspace(-self.px_rad, self.px_rad, num=sz, endpoint=True)
         xv, yv = np.meshgrid(self.x, self.y)
         self.z = self.gauss(xv, yv, self.fwhm, self.amplitude)
 
@@ -25,14 +26,15 @@ class Sublattice:
         x2 = np.power(_x, 2)
         y2 = np.power(_y, 2)
 
-        return _amp * np.exp(-4 * np.log(2) * (x2 + y2) / (_fwhm * _fwhm))
+        g = _amp * np.exp(-4 * np.log(2) * (x2 + y2) / (_fwhm * _fwhm))
+        return np.swapaxes(g, 0, 1)
 
     def eval(self, pos_int, pos_f):
 
         x_i = np.arange(-self.px_rad, self.px_rad + 1)
         y_i = np.arange(-self.px_rad, self.px_rad + 1)
 
-        im = self.interp(x_i + pos_f[1], y_i + pos_f[0])
+        im = self.interp(y_i - pos_f[0], x_i - pos_f[1])
 
         x_i += pos_int[1]
         y_i += pos_int[0]

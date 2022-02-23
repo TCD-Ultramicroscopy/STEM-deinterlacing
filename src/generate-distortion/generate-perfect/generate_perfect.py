@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import tifffile
+from scipy.ndimage import rotate as scipy_rot
 from utils import Sublattice, calculate_tiling, generate_rotation_matrix
 
 image_size = np.array([1024, 1024])
@@ -43,8 +44,10 @@ for i in range(x_tile_min, x_tile_max + 1):
             if np.any(cd < -sl.px_rad) or np.any(cd > image_size + sl.px_rad):
                 continue
 
-            cd_i = cd.astype(np.int64)
-            cd_f = cd - cd_i
+            cd_i = cd.astype(np.int64)  # y, x
+            cd_f = cd - cd_i  # y, x
+
+            # cd_f *= np.array([-1.0, 1.0])
 
             xx, yy, vv = sl.eval(cd_i, cd_f)
 
@@ -65,6 +68,9 @@ for i in range(x_tile_min, x_tile_max + 1):
 
 # plt.imshow(out_image, origin='lower')
 # plt.show()
+
+# rotation = -7.2
+# rot_out_image = scipy_rot(out_image, rotation, reshape=False)
 
 tifffile.imsave("perfect.tif", out_image.astype(np.float32))
 
