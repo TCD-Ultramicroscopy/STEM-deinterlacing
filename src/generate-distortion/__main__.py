@@ -15,8 +15,6 @@ dose = 100  # electrons per microsecond
 flyback_time = 500  # us
 dwell_times = [40, 1, 20, 10, 8, 5, 4, 2]  # us
 num_frames = [1, 40, 2, 4, 5, 8, 10, 20]
-dwell_times = [1]  # us
-num_frames = [4]
 do_rotation = False
 interlace = False
 
@@ -47,7 +45,7 @@ out_size = (512, 512)  # crop image to avoid ege artefacts from distortion shift
 
 # Let's Go!
 
-waves = get_distortions(n_freq=n_freq, freq_range=freq_range, amp_range=amp_range, reuse=False, save=True)
+waves = get_distortions(n_freq=n_freq, freq_range=freq_range, amp_range=amp_range, reuse=True, save=True)
 
 for dt, nf in zip(dwell_times, num_frames):
     out_images, out_dist_x, out_dist_y = distort_image(in_image, out_size, waves, dt, flyback_time, nf, drift_vec,
