@@ -2,8 +2,9 @@ import numpy as np
 import tifffile
 import os
 import shutil
+import inspect
 
-from generate_distortions import get_distortions
+from generate_distortions import get_distortions, normalise_amp
 
 from distort_image import distort_image
 
@@ -25,12 +26,14 @@ dwell_times = [40, 1, 20, 10, 8, 5, 4, 2]  # us
 num_frames = [1, 40, 2, 4, 5, 8, 10, 20]
 
 # distortion frequency information
+reuse_waves = True
 # These are only used when generating outputs
 freq_range = (0.1, 75)  # min, max
 n_freq = 100
-amp_range = (1 / n_freq, 5 / n_freq)  # min, max (px)
+amp_range = (1 / n_freq, 10 / n_freq)  # min, max (px)
 # amp_range = (10 / n_freq, 50 / n_freq)  # min, max (px)
-drift_vec = np.array([2.8, 3.6])  # px per s
+#drift_vec = np.array([2.8, 3.6])  # px per s
+drift_vec = np.array([0.0, 0.0])  # px per s
 
 plot_outputs = False
 
@@ -63,7 +66,7 @@ out_size = (512, 512)  # crop image to avoid ege artefacts from distortion shift
 
 # Let's Go!
 
-waves_info = get_distortions(n_freq=n_freq, freq_range=freq_range, amp_range=amp_range, reuse=True)
+waves_info = get_distortions(n_freq=n_freq, freq_range=freq_range, amp_range=amp_range, reuse=reuse_waves)
 waves = waves_info['waves']
 
 # save the waves to our output folder
@@ -76,6 +79,9 @@ with open(os.path.join(output_dir, "parameters.txt"), 'w') as f:
     f.write(f'n_freq: {waves_info["n_freq"]}\n')
     f.write(f'freq_range: {waves_info["freq_range"]}\n')
     f.write(f'amp_range: {waves_info["amp_range"]}\n')
+    f.write(f'drift_vec: {(drift_vec[0], drift_vec[1])}\n')
+
+    f.write(f'amp_norm_func:\n{inspect.getsource(normalise_amp)}\n')
 
 for do_int in [True, False]:
     for do_rot in [False, True]:

@@ -39,6 +39,10 @@ def get_distortions(n_freq=None, freq_range=None, amp_range=None, reuse=False, s
     return output
 
 
+def normalise_amp(amp, freq_range, freq):
+    return 0.3 * amp * freq_range[1] / freq
+
+
 def generate_distortions(n_freq, freq_range, amp_range):
     waves = []
 
@@ -49,7 +53,7 @@ def generate_distortions(n_freq, freq_range, amp_range):
         amp = np.random.uniform(amp_range[0], amp_range[1])
         angle = np.random.uniform(0, 2 * np.pi)  # the direction the wave travels across the image
 
-        amp = 0.3 * amp * freq_range[1] / freq
+        amp = normalise_amp(amp, freq_range, freq)
 
         waves.append(WaveGen(freq, amp, phase, angle))
 
