@@ -55,6 +55,8 @@ while os.path.exists(output_dir):
     i += 1
     output_dir = f'{output_dir_base}_{i}'
 
+print(f'Output directory: {output_dir}')
+
 if not os.path.exists(output_dir):
     os.mkdir(output_dir)
 

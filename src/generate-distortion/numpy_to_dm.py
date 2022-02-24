@@ -7,7 +7,7 @@ top_dir = r''
 
 for sub_dir in ['full', 'full_rot', 'int', 'int_rot']:
 
-    sd = os.poath.join(top_dir, sub_dir)
+    sd = os.path.join(top_dir, sub_dir)
 
     for f in os.listdir(sd):
         f_path = os.path.join(sd, f)
