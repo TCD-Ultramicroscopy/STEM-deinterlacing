@@ -1,6 +1,7 @@
 import numpy as np
 import tifffile
 import os
+import shutil
 
 from generate_distortions import get_distortions
 
@@ -22,10 +23,9 @@ dose = 100  # electrons per microsecond
 flyback_time = 500  # us
 dwell_times = [40, 1, 20, 10, 8, 5, 4, 2]  # us
 num_frames = [1, 40, 2, 4, 5, 8, 10, 20]
-do_rotation = False
-interlace = False
 
 # distortion frequency information
+# These are only used when generating outputs
 freq_range = (0.1, 75)  # min, max
 n_freq = 100
 amp_range = (1 / n_freq, 5 / n_freq)  # min, max (px)
@@ -45,6 +45,17 @@ plot_outputs = False
 # in_image = in_image + 1
 # out_size = (256, 256)
 
+output_dir_base = "output"
+i = 0
+output_dir = f'{output_dir_base}_{i}'
+while os.path.exists(output_dir):
+    i += 1
+    output_dir = f'{output_dir_base}_{i}'
+
+if not os.path.exists(output_dir):
+    os.mkdir(output_dir)
+
+shutil.copy("generate-perfect/perfect.tif", os.path.join(output_dir, "perfect.tif"))
 in_image = tifffile.imread("generate-perfect/perfect.tif")
 # in_image = in_image[::2, ::2]
 out_size = (512, 512)  # crop image to avoid ege artefacts from distortion shifts
@@ -52,7 +63,19 @@ out_size = (512, 512)  # crop image to avoid ege artefacts from distortion shift
 
 # Let's Go!
 
-waves = get_distortions(n_freq=n_freq, freq_range=freq_range, amp_range=amp_range, reuse=True, save=True)
+waves_info = get_distortions(n_freq=n_freq, freq_range=freq_range, amp_range=amp_range, reuse=True)
+waves = waves_info['waves']
+
+# save the waves to our output folder
+shutil.copy("waves.pickle", os.path.join(output_dir, "waves.pickle"))
+
+# lets just save some parameters in case we want to revisit this
+with open(os.path.join(output_dir, "parameters.txt"), 'w') as f:
+    f.write(f'dose: {dose}\n')
+    f.write(f'flyback: {flyback_time}\n')
+    f.write(f'n_freq: {waves_info["n_freq"]}\n')
+    f.write(f'freq_range: {waves_info["freq_range"]}\n')
+    f.write(f'amp_range: {waves_info["amp_range"]}\n')
 
 for do_int in [True, False]:
     for do_rot in [False, True]:
@@ -76,9 +99,6 @@ for do_int in [True, False]:
                 else:
                     out_stack[i, ...] = out_images[i]
 
-            if not os.path.exists('output'):
-                os.mkdir('output')
-
             folder_name = ''
             if do_int:
                 folder_name += 'int'
@@ -88,10 +108,10 @@ for do_int in [True, False]:
             if do_rot:
                 folder_name += '_rot'
 
-            if not os.path.exists(os.path.join('output', folder_name)):
-                os.mkdir(os.path.join('output', folder_name))
+            if not os.path.exists(os.path.join(output_dir, folder_name)):
+                os.mkdir(os.path.join(output_dir, folder_name))
 
             dt_str = f'{dt}'.replace('.', '-')
 
-            with open(os.path.join(os.path.join('output', folder_name), f"image_nf_{nf:03}_dt_{dt_str}.npy"), "wb") as f:
+            with open(os.path.join(os.path.join(output_dir, folder_name), f"image_nf_{nf:03}_dt_{dt_str}.npy"), "wb") as f:
                 np.save(f, out_stack)

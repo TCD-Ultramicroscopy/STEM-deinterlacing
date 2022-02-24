@@ -26,15 +26,17 @@ class WaveGen:
 def get_distortions(n_freq=None, freq_range=None, amp_range=None, reuse=False, save=True):
     if reuse:
         with open("waves.pickle", "rb") as fp:  # Unpickling
-            return pickle.load(fp)
+            wave_info = pickle.load(fp)
+            return wave_info
 
     waves = generate_distortions(n_freq, freq_range, amp_range)
+    output = {'waves': waves, 'n_freq': n_freq, 'freq_range': freq_range, 'amp_range': amp_range}
 
     if save:
         with open("waves.pickle", "wb") as fp:  # Pickling
-            pickle.dump(waves, fp)
+            pickle.dump(output, fp)
 
-    return waves
+    return output
 
 
 def generate_distortions(n_freq, freq_range, amp_range):
