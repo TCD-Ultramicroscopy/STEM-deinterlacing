@@ -1,5 +1,6 @@
 import numpy as np
 import pickle
+import os
 
 
 # this class just holds the variables (and calculates the field) just so this information can be stored and applied to
@@ -20,27 +21,35 @@ class WaveGen:
         return distortion_y, distortion_x
 
 
+#generates
+# Load waves from file if desired, else  from scratch
 #
-# Load waves from file if desired, else generates from scratch
-#
-def get_distortions(n_freq=None, freq_range=None, amp_range=None, reuse=False, save=True):
+def get_distortions(n_freq=None, freq_range=None, amp_range=None, reuse=False, save=True, reuse_path=''):
+    file_name = "waves.pickle"
+    if reuse_path: # if string is not empty
+        file_name = os.path.join(reuse_path, file_name)
+
     if reuse:
-        with open("waves.pickle", "rb") as fp:  # Unpickling
+        with open(file_name, "rb") as fp:  # Unpickling
             wave_info = pickle.load(fp)
             return wave_info
+
+    return
 
     waves = generate_distortions(n_freq, freq_range, amp_range)
     output = {'waves': waves, 'n_freq': n_freq, 'freq_range': freq_range, 'amp_range': amp_range}
 
     if save:
-        with open("waves.pickle", "wb") as fp:  # Pickling
+        with open(file_name, "wb") as fp:  # Pickling
             pickle.dump(output, fp)
 
     return output
 
 
 def normalise_amp(amp, freq_range, freq):
-    return 0.3 * amp * freq_range[1] / freq
+    p1 = 1.0
+    p2 = 1.0
+    return p1 * amp * freq_range[1] / (p2 * (freq - freq_range[0]) + 1)
 
 
 def generate_distortions(n_freq, freq_range, amp_range):
