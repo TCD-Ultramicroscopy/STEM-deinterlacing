@@ -34,8 +34,6 @@ def get_distortions(n_freq=None, freq_range=None, amp_range=None, reuse=False, s
             wave_info = pickle.load(fp)
             return wave_info
 
-    return
-
     waves = generate_distortions(n_freq, freq_range, amp_range)
     output = {'waves': waves, 'n_freq': n_freq, 'freq_range': freq_range, 'amp_range': amp_range}
 
