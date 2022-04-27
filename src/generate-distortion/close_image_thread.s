@@ -28,7 +28,18 @@ class mythread : thread {
 
 		while(1) {
 			self.CloseAll()
-			sleep(60)
+			sleep(115)
+			result("Closing all images in 5...\n")
+			sleep(1)
+			result("Closing all images in 4...\n")
+			sleep(1)
+			result("Closing all images in 3...\n")
+			sleep(1)
+			result("Closing all images in 2...\n")
+			sleep(1)
+			result("Closing all images in 1...\n")
+			sleep(1)
+			result("Closing all images NOW\n")
 		}
 
 	}
