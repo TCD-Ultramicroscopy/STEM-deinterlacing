@@ -23,7 +23,7 @@ def load_deinterlace_modules(name, modules_path):
     menu_entry_loads = []
 
     for subdir, dirs, files in os.walk(modules_path):
-        if subdir.endswith('__pycache__'):
+        if subdir.endswith('__pycache__') or subdir.endswith('ignore'):
             continue
 
         current_module = name
