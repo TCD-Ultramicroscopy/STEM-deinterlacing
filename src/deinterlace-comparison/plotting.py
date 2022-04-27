@@ -97,7 +97,7 @@ def plot_image_difference(image_ground, image_di, title, show=True, save_path=""
         plt.close(fig)
 
 
-def plot_time_quality_graph(name, time, quality, fcols, shps, time_n=1, show=True):
+def plot_time_quality_graph(name, time, quality, fcols, shps, time_n=1, show=True, save_path=""):
 
     fig, ax = plt.subplots(figsize=(7.5, 3.75), dpi=300)
 
@@ -158,7 +158,8 @@ def plot_time_quality_graph(name, time, quality, fcols, shps, time_n=1, show=Tru
 
     plt.tight_layout()
 
-    plt.savefig(f'plot_outputs/time-quality.pdf')
+    if save_path:
+        plt.savefig(os.path.join(save_path, 'time-quality.pdf'))
 
     if show:
         plt.show()
