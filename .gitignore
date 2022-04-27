@@ -6,3 +6,5 @@ __pycache__
 *smart_align_working*
 *.dm4
 *.csv
+*outputs
+*.pdf

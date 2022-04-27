@@ -6,7 +6,7 @@ import numpy as np
 import os
 
 
-def plot_image_difference(image_ground, image_di, title, show=True):
+def plot_image_difference(image_ground, image_di, title, show=True, save_path=""):
     fig, axs = plt.subplots(2, 3, figsize=(7.5, 4.5), dpi=300)
 
     fig.suptitle(title, fontsize=10)
@@ -88,7 +88,8 @@ def plot_image_difference(image_ground, image_di, title, show=True):
     ax.set_ylabel('V')
     ax.set_xlabel('t')
 
-    plt.savefig(f'plot_outputs/{title}.pdf')
+    if save_path:
+        plt.savefig(os.path.join(save_path, f'{title}.pdf'))
 
     if show:
         plt.show()
