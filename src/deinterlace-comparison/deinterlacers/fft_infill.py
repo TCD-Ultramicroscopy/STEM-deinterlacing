@@ -5,7 +5,8 @@ class FFT_spline:
 
     name = "FFT spline"
 
-    shape = 's'
+    shape = 'P'
+    markercolor = 'C3'
     facecolor = None
 
     def deinterlace(self, image, interlacing_factor, axis=0):
@@ -34,9 +35,10 @@ class FFT_spline_smooth_v1:
 
     sigma = 0
 
-    name = f"FFT spline, sigma = {sigma}"
+    name = f"FFT spline, σ = {sigma}"
 
-    shape = 's'
+    shape = 'P'
+    markercolor = 'C2'
     facecolor = None
 
     def deinterlace(self, image, interlacing_factor, axis=0):
@@ -77,22 +79,27 @@ class FFT_spline_smooth_v1:
 
 class FFT_spline_smooth_v1_25(FFT_spline_smooth_v1):
     sigma = 25
-    name = f"FFT spline, sigma = {sigma}"
+    name = f"FFT spline, σ = {sigma}"
+
+    markercolor = 'C1'
 
 
 class FFT_spline_smooth_v1_50(FFT_spline_smooth_v1):
     sigma = 50
-    name = f"FFT spline, sigma = {sigma}"
+    name = f"FFT spline, σ = {sigma}"
+
+    markercolor = 'C0'
 
 
 class FFT_spline_smooth_v2:
 
     sigma = 0
 
-    name = f"FFT spline v2, sigma = {sigma}"
+    name = f"FFT spline v2, σ = {sigma}"
 
-    shape = 's'
+    shape = 'P'
     facecolor = None
+    markercolor = 'C4'
 
     def deinterlace(self, image, interlacing_factor, axis=0):
         dim = list(image.shape)
@@ -132,9 +139,13 @@ class FFT_spline_smooth_v2:
 
 class FFT_spline_smooth_v2_25(FFT_spline_smooth_v2):
     sigma = 25
-    name = f"FFT spline v2, sigma = {sigma}"
+    name = f"FFT spline v2, σ = {sigma}"
+
+    markercolor = 'C5'
 
 
 class FFT_spline_smooth_v2_50(FFT_spline_smooth_v2):
     sigma = 50
-    name = f"FFT spline v2, sigma = {sigma}"
+    name = f"FFT spline v2, σ = {sigma}"
+
+    markercolor = 'C6'

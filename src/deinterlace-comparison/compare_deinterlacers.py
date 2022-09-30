@@ -17,6 +17,8 @@ from load_deinterlacers import load_deinterlace_modules
 from interlace import interlace
 # gets the quality of the di
 from quality_measure import image_similarity
+# so output can be dumped
+import pickle
 
 
 def _compare_deinterlacers(image, n_time_averaging, image_difference_measure, output_folder):
@@ -26,6 +28,14 @@ def _compare_deinterlacers(image, n_time_averaging, image_difference_measure, ou
         os.mkdir('outputs')
 
     output_path = os.path.join('outputs', output_folder)
+
+    try:
+        with open(os.path.join(output_path, 'timing_data.pickle'), 'rb') as handle:
+            di_names, di_times, di_quality, di_mcol, di_fcol, di_shp, n_time_averaging = pickle.load(handle)
+            plot_time_quality_graph(di_names, di_times, di_quality, di_mcol, di_fcol, di_shp, n_time_averaging, show=True, save_path=output_path)
+            return
+    except FileNotFoundError:
+        pass
 
     if not os.path.exists(output_path):
         os.mkdir(output_path)
@@ -59,6 +69,7 @@ def _compare_deinterlacers(image, n_time_averaging, image_difference_measure, ou
 
     di_diff_profile = []
     di_shp = []
+    di_mcol = []
     di_fcol = []
 
     # in case we want to try every 3 lines later
@@ -96,6 +107,7 @@ def _compare_deinterlacers(image, n_time_averaging, image_difference_measure, ou
         di_times.append(di_elapsed_time_per)
         di_quality.append(di_qual)
 
+        di_mcol.append(m.markercolor)
         di_fcol.append(m.facecolor)
         di_shp.append(m.shape)
 
@@ -104,7 +116,12 @@ def _compare_deinterlacers(image, n_time_averaging, image_difference_measure, ou
         plot_image_difference(ref_image, di_image_crop, m.name, show=False, save_path=output_path)
         print(f'Done with {m.name}')
 
-    plot_time_quality_graph(di_names, di_times, di_quality, di_fcol, di_shp, n_time_averaging, show=True, save_path=output_path)
+    with open(os.path.join(output_path, 'timing_data.pickle'), 'wb') as handle:
+        pickle.dump((di_names, di_times, di_quality, di_mcol, di_fcol, di_shp, n_time_averaging), handle)
+
+    plot_time_quality_graph(di_names, di_times, di_quality, di_mcol, di_fcol, di_shp, n_time_averaging, show=True, save_path=output_path)
+
+    print("Beep boop. All done!")
 
 def compare_deinterlacers(input_file, n_time_averaging, image_difference_measure, output_folder):
     if isinstance(input_file, str):

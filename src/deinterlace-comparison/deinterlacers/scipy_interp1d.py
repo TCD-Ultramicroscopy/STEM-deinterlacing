@@ -4,10 +4,11 @@ from scipy.interpolate import interp1d
 
 class ScipyNearest:
     kind = 'nearest'
-    name = f'Scipy interp1d {kind}'
+    name = f'SciPy Interp 1D Nearest'
 
-    shape = 'o'
-    facecolor = '#ffff00'
+    shape = 'D'
+    markercolor = 'C3'
+    facecolor = 'w'
 
     def deinterlace(self, image, interlacing_factor=2, axis=0):
         dim = list(image.shape)
@@ -25,39 +26,34 @@ class ScipyNearest:
 
 class ScipyLinear(ScipyNearest):
     kind = 'linear'
-    name = f'Scipy interp1d {kind}'
+    name = f'SciPy Interp 1D Linear'
 
-    shape = 'o'
-    # facecolor = 'w'
+    markercolor = 'C2'
 
 
 class ScipySlinear(ScipyNearest):
     kind = 'slinear'
-    name = f'Scipy interp1d {kind}'
+    name = f'SciPy Interp 1D Slinear'
 
-    shape = 'o'
-    # facecolor = 'w'
+    markercolor = 'C1'
 
 
 class ScipyZero(ScipyNearest):
     kind = 'zero'
-    name = f'Scipy interp1d {kind}'
+    name = f'SciPy Interp 1D Zero'
 
-    shape = 'o'
-    # facecolor = None
+    markercolor = 'C0'
 
 
 class ScipyQuadratic(ScipyNearest):
     kind = 'quadratic'
-    name = f'Scipy interp1d {kind}'
+    name = f'SciPy Interp 1D Quadratic'
 
-    shape = 'o'
-    # facecolor = 'w'
+    markercolor = 'C4'
 
 
 class ScipyCubic(ScipyNearest):
     kind = 'cubic'
-    name = f'Scipy interp1d {kind}'
+    name = f'SciPy Interp 1D Cubic'
 
-    shape = 'o'
-    # facecolor = 'w'
+    markercolor = 'C5'

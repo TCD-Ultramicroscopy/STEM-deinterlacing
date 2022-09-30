@@ -1,11 +1,13 @@
 import numpy as np
 import scipy.signal as sp_signal
 
+
 class scipy_resample_default:
 
-    name = "SciPy resample (default)"
+    name = "SciPy Resample Default"
 
-    shape = '3'
+    shape = 'D'
+    markercolor = 'C3'
     facecolor = None
 
     def deinterlace(self, image, interlacing_factor, axis=0):
@@ -17,11 +19,13 @@ class scipy_resample_default:
 
         return sp_signal.resample(image, n_samples)
 
+
 class scipy_resample_boxcar:
 
-    name = "SciPy resample boxcar"
+    name = "SciPy Resample Boxcar"
 
-    shape = '3'
+    shape = 'D'
+    markercolor = 'C2'
     facecolor = None
 
     window_str = 'boxcar'

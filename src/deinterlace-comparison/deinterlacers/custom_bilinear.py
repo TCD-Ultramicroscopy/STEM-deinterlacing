@@ -4,8 +4,9 @@ class CustomBilinear:
 
     name = "Custom Bilinear v1"
 
-    shape = 'o'
-    facecolor = 'k'
+    shape = '^'
+    markercolor = 'C3'
+    facecolor = 'w'
 
     def deinterlace(self, image, interlacing_factor, axis=0):
         output = np.repeat(image, interlacing_factor, axis=axis)
@@ -46,8 +47,9 @@ class Custom_2:
 
     name = "Custom Bilinear v2"
 
-    shape = 's'
-    facecolor = 'k'
+    shape = '^'
+    markercolor = 'C2'
+    facecolor = 'w'
 
     def deinterlace(self, image, interlacing_factor, axis=0):
         output = np.repeat(image, interlacing_factor, axis=axis)
@@ -89,8 +91,9 @@ class NumPy_C_Bilinear_v1:
 
     name = "Custom Bilinear v3"
 
-    shape = 'o'
-    facecolor = 'b'
+    shape = '^'
+    markercolor = 'C1'
+    facecolor = 'w'
 
     def deinterlace(self, image, interlacing_factor, axis=0):
         output = np.repeat(image, interlacing_factor, axis=axis)
@@ -117,7 +120,8 @@ class NumPy_C_Bilinear_v2:
 
     name = "Custom Bilinear v4"
 
-    shape = 'o'
+    shape = '^'
+    markercolor = 'C0'
     facecolor = 'w'
 
     def deinterlace(self, image, interlacing_factor, axis=0):

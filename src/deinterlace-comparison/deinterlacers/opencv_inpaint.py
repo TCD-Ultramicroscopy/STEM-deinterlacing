@@ -7,6 +7,7 @@ class OpenCV_IP_Telea:
 
     shape = '^'
     facecolor = None
+    markercolor = 'C3'
 
     def deinterlace(self, image, interlacing_factor=2, axis=0):
         dim = list(image.shape)
@@ -29,13 +30,16 @@ class OpenCV_IP_Telea_r5(OpenCV_IP_Telea):
 
     name = f"OpenCV Inpaint Telea (r={radius})"
 
+    markercolor = 'C3'
+
 
 class OpenCV_IP_NS:
     radius = 1
 
-    name = f"OpenCV Inpaint NS (r={radius})"
+    name = f"OpenCV Inpaint Navier-Stokes (r={radius})"
 
     shape = '^'
+    markercolor = 'C1'
     facecolor = None
 
     def deinterlace(self, image, interlacing_factor=2, axis=0):
@@ -55,4 +59,6 @@ class OpenCV_IP_NS:
 class OpenCV_IP_NS_r5(OpenCV_IP_NS):
     radius = 5
 
-    name = f"OpenCV Inpaint NS (r={radius})"
+    name = f"OpenCV Inpaint Navier-Stokes (r={radius})"
+
+    markercolor = 'C0'

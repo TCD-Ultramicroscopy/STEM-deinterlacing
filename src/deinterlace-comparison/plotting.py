@@ -97,41 +97,24 @@ def plot_image_difference(image_ground, image_di, title, show=True, save_path=""
         plt.close(fig)
 
 
-def plot_time_quality_graph(name, time, quality, fcols, shps, time_n=1, show=True, save_path=""):
+def plot_time_quality_graph(name, time, quality, mcols, fcols, shps, time_n=1, show=True, save_path=""):
 
-    fig, ax = plt.subplots(figsize=(7.5, 3.75), dpi=300)
+    fig, ax = plt.subplots(figsize=(10, 6.5), dpi=100)
 
     time_factor = 1000
     time_units = 'm'
 
-    # symbols = ['o', 's', '^', 'D', 'v', 'X', 'P']
-    # cols = ['C0', 'C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9']
-
-    # s_n = len(symbols)
-    # c_n = len(cols)
-
-    s_id = 0
-    c_id = 0
-
-    id = [i for i, x in enumerate(name) if x == 'NumPy Repeat']
-    fac = 1 / quality[id[0]]
+    ii = [i for i, x in enumerate(name) if x == 'NumPy Repeat']
+    fac = 1 / quality[ii[0]]
 
     for i in range(len(name)):
-        if fcols[i] is None:
-            ax.plot(time[i]*time_factor, quality[i] * fac, markersize=4, label=name[i], marker=shps[i])#, marker=symbols[s_id])
-        else:
-            ax.plot(time[i] * time_factor, quality[i] * fac, markersize=4, label=name[i], marker=shps[i], markerfacecolor=fcols[i])
-        # ax.annotate(' ' + name[i], (time[i], quality[i]))
-        #
-        #
-        # c_id += 1
-        #
-        # if c_id == c_n:
-        #     c_id = 0
-        #     s_id += 1
-        #
-        #     if s_id == s_n:
-        #         s_id = 0
+        plot_kwargs = {}
+        if fcols[i] is not None:
+            plot_kwargs['markerfacecolor'] = fcols[i]
+        if mcols[i] is not None:
+            plot_kwargs['color'] = mcols[i]
+
+        ax.plot(time[i]*time_factor, quality[i] * fac, markersize=4, label=name[i], marker=shps[i], **plot_kwargs)
 
     ax.set_ylabel(f'Reconstruction quality', fontsize=10)
     ax.set_xlabel(f'Average computation time, n={time_n} ({time_units}s)', fontsize=10)

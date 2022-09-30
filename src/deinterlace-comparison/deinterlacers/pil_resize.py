@@ -4,9 +4,10 @@ from PIL import Image
 
 class PillowNearest:
     kind = Image.NEAREST
-    name = f'PIL Nearest'
+    name = f'PIL Resize Nearest'
 
-    shape = '*'
+    shape = 's'
+    markercolor = 'C3'
     facecolor = None
 
     def deinterlace(self, image, interlacing_factor=2, axis=0):
@@ -23,39 +24,34 @@ class PillowNearest:
 
 class PillowLinear(PillowNearest):
     kind = Image.BILINEAR
-    name = f'PIL bilinear'
+    name = f'PIL Resize Bilinear'
 
-    shape = '*'
-    facecolor = 'w'
+    markercolor = 'C2'
 
 
 class PillowBox(PillowNearest):
     kind = Image.BOX
-    name = f'PIL box'
+    name = f'PIL Resize Box'
 
-    shape = '*'
-    facecolor = 'w'
+    markercolor = 'C1'
 
 
 class PillowHamming(PillowNearest):
     kind = Image.HAMMING
-    name = f'PIL hamming'
+    name = f'PIL Resize Hamming'
 
-    shape = '*'
-    facecolor = None
+    markercolor = 'C0'
 
 
 class PillowBicubic(PillowNearest):
     kind = Image.BICUBIC
-    name = f'PIL bicubic'
+    name = f'PIL Resize Bicubic'
 
-    shape = '*'
-    facecolor = 'w'
+    markercolor = 'C4'
 
 
 class PillowLanczos(PillowNearest):
     kind = Image.LANCZOS
-    name = f'PIL lanczos'
+    name = f'PIL Resize Lanczos'
 
-    shape = '*'
-    facecolor = 'w'
+    markercolor = 'C5'
