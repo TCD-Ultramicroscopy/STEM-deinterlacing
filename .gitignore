@@ -1,10 +1,2 @@
 .idea
 __pycache__
-*.tif
-*.pickle
-*output_*
-*smart_align_working*
-*.dm4
-*.csv
-*outputs
-*.pdf
