@@ -1,3 +1,14 @@
+###############################################################################
+#
+# quality_measure.py
+#
+# Created by Jonathan J. P. Peters
+#
+# This file contains methods to measure the similarity/difference between two
+# images.
+#
+###############################################################################
+
 import numpy as np
 from skimage.metrics import structural_similarity, peak_signal_noise_ratio, normalized_root_mse
 from scipy.signal import fftconvolve

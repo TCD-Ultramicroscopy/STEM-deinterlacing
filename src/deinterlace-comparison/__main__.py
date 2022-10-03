@@ -1,3 +1,13 @@
+###############################################################################
+#
+# __main__.py
+#
+# Created by Jonathan J. P. Peters
+#
+# This script defines a few variables, then calls the main body of the code.
+#
+###############################################################################
+
 # main script to compare deinterlacing
 from compare_deinterlacers import compare_deinterlacers
 # for example image

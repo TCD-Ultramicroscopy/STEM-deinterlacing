@@ -1,3 +1,14 @@
+###############################################################################
+#
+# plotting.py
+#
+# Created by Jonathan J. P. Peters
+#
+# This fiel contains the functions for plotting the deinterlacing results, both
+# images as well as speed/quality plots.
+#
+###############################################################################
+
 # for displaying the data
 import matplotlib.pyplot as plt
 # always need np

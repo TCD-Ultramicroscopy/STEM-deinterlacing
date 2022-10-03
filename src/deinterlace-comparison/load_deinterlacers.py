@@ -1,3 +1,14 @@
+###############################################################################
+#
+# load_deinterlacers.py
+#
+# Created by Jonathan J. P. Peters
+#
+# This looks through the designated folder for classes that match some
+# prototype, it then loads them for use.
+#
+###############################################################################
+
 import os
 import sys
 import importlib
@@ -43,12 +54,12 @@ def load_deinterlace_modules(name, modules_path):
             try:                module = importlib.import_module(current_module + module_name)
             except ImportError as e:
                 error_string = f'Could not load {current_module}{module_name}:\n {str(e)}'
-                import_errors.append(error_string)
+                # import_errors.append(error_string)
                 warnings.warn(error_string)
                 continue
 
             md = module.__dict__
-            classes = [v for c, v in md.items() if (isinstance(v, type) and v.__module__ == module.__name__)]
+            # classes = [v for c, v in md.items() if (isinstance(v, type) and v.__module__ == module.__name__)]
 
             classes = [v for c, v in md.items() if (isinstance(v, type) and v.__module__ == module.__name__)]
 

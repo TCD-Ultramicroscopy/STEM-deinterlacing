@@ -1,3 +1,14 @@
+###############################################################################
+#
+# compare_deinterlacers.py
+#
+# Created by Jonathan J. P. Peters
+#
+# This is the main body of this folder, contains the code that calls everything
+# else and returns data etc.
+#
+###############################################################################
+
 # general stuff
 import os
 import sys
