@@ -1,7 +1,20 @@
+###############################################################################
+#
+# numpy_to_dm.py
+#
+# Created by Jonathan J. P. Peters
+#
+# This converts the python output to DigitalMicrograph files. Must be run
+# inside DM.
+#
+###############################################################################
+
 import numpy as np
 import DigitalMicrograph as DM
 import os
 
+# because of the way DM works, you have to define this yourself
+# use the full path version of whatever is defined in 'base_dir.py'
 base_dir = r''
 
 for bf in os.listdir(base_dir):

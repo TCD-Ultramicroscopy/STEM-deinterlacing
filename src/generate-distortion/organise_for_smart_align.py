@@ -1,8 +1,20 @@
+###############################################################################
+#
+# organise_for_smart_align.py
+#
+# Created by Jonathan J. P. Peters
+#
+# This takes the data from the organised folders and puts it into two folders
+# (one with scan rotations and one without). This lets you use the batch
+# processing on smart align to do everything at once.
+#
+###############################################################################
+
 import sys
 import os
 import shutil
+from base_dir import base_dir
 
-base_dir = r''
 working_folder = 'smart_align_working'
 working_dir = os.path.join(base_dir, working_folder)
 
@@ -17,6 +29,12 @@ if not os.path.exists(working_dir):
 for bf in os.listdir(base_dir):
     top_dir = os.path.join(base_dir, bf)
     if not os.path.isdir(top_dir) or not bf.startswith('output_'):
+        continue
+
+    use_list = []
+    for i in range(21):
+        use_list.append(f'output_{i}')
+    if bf not in use_list:
         continue
 
     for sub_dir in ['full', 'full_rot', 'int', 'int_rot']:

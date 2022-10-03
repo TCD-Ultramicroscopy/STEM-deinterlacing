@@ -1,8 +1,19 @@
+###############################################################################
+#
+# organise_after_smart_align.py
+#
+# Created by Jonathan J. P. Peters
+#
+# This takes the folder with the smartalign output and organises the data back
+# into individual folders
+#
+###############################################################################
+
 import os
 import shutil
 import re
+from base_dir import base_dir
 
-base_dir = r''
 working_folder = r'smart_align_working'
 working_dir = os.path.join(base_dir, working_folder)
 
@@ -40,8 +51,11 @@ for swf in ['full', 'rot']:
         dst_pth = os.path.join(run_dir, dst_file)
 
         if os.path.exists(dst_pth):
-            print("File exists, NOT copying")
-            continue
+            # print("File exists, NOT copying")
+            # continue
+
+            print("File exists, BUT STILL copying")
+            # continue
 
         print("File does not exist, copying")
 

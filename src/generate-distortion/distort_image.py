@@ -1,6 +1,17 @@
+###############################################################################
+#
+# distort_image.py
+#
+# Created by Jonathan J. P. Peters
+#
+# This file is where the actual image distortions are applied.
+#
+###############################################################################
+
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.ndimage import map_coordinates
+from generate_distortions import add_noise
 import tifffile
 import os
 
@@ -118,7 +129,7 @@ def distort_image(input_image, output_size, waves, dwell_time, flyback_time, num
                 in_image_crop = in_image_crop[::2, :]
                 out_image = out_image[::2, :]
 
-        out_image = np.random.poisson(out_image * dose * dwell_time)
+        out_image = add_noise(out_image, dose, dwell_time)
 
         out_images.append(out_image)
         out_dist_x.append(dist_x_image)

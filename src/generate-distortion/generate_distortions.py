@@ -1,3 +1,13 @@
+###############################################################################
+#
+# generate_distortions.py
+#
+# Created by Jonathan J. P. Peters
+#
+# This file contains the code where the image distortions are made
+#
+###############################################################################
+
 import numpy as np
 import pickle
 import os
@@ -29,7 +39,7 @@ def get_distortions(n_freq=None, freq_range=None, amp_range=None, reuse=False, s
     if reuse_path: # if string is not empty
         file_name = os.path.join(reuse_path, file_name)
 
-    if reuse:
+    if reuse and os.path.exists(file_name):
         with open(file_name, "rb") as fp:  # Unpickling
             wave_info = pickle.load(fp)
             return wave_info
@@ -45,9 +55,24 @@ def get_distortions(n_freq=None, freq_range=None, amp_range=None, reuse=False, s
 
 
 def normalise_amp(amp, freq_range, freq):
-    p1 = 1.0
+    p1 = 0.9
     p2 = 1.0
-    return p1 * amp * freq_range[1] / (p2 * (freq - freq_range[0]) + 1)
+    p3 = 1.0 - p1
+    factor = p1 / (p2 * (freq - freq_range[0]) + 1) + p3
+    return amp * factor *  freq_range[1] / 2.5
+
+def add_noise(image, dose, dwell_time):
+    # deal with dose
+    out_image = image * dose * dwell_time
+
+    # add poisson noise
+    out_image = np.random.poisson(out_image).astype(np.float64)
+
+    # add Gaussian noise
+    # std = 1.5
+    # out_image = np.random.normal(out_image, std)
+
+    return out_image.astype(np.float64)
 
 
 def generate_distortions(n_freq, freq_range, amp_range):

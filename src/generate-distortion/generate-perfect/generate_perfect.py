@@ -1,3 +1,14 @@
+###############################################################################
+#
+# generate_perfect.py
+#
+# Created by Jonathan J. P. Peters
+#
+# This script generates a STEM-like image to avoid the need of simulation when
+# doing simple testing.
+#
+###############################################################################
+
 import numpy as np
 import matplotlib.pyplot as plt
 import tifffile
@@ -7,8 +18,11 @@ from utils import Sublattice, calculate_tiling, generate_rotation_matrix
 # output image size
 image_size = np.array([1024, 1024])
 
-scale = 0.2  # Angstroms per pixel
-# scale_y = scale_x  # separate y scale is not supported
+scale = 1.0  # Angstroms per pixel
+# separate y scale is not supported
+
+# Structure is defined using two lattice vectors and relative sublattice vectors
+# with an intesity and FWHM
 
 #
 # STO 100
@@ -37,8 +51,9 @@ sublattices = [Sublattice([0.0, 0.0], 1.2, 0.8, scale),
 #                Sublattice([2.08, 4.17], 0.8, 0.8, scale)
 #                ]
 
-# rotation of the image
-rotation = -7.2  # degrees
+# # rotation of the image
+# rotation = -47.2  # degrees
+rotation = 72  # degrees
 
 # background intensity
 baseline = 0.1
@@ -90,11 +105,11 @@ for i in range(x_tile_min, x_tile_max + 1):
 
 
 
-# plt.imshow(out_image, origin='lower')
-# plt.show()
+plt.imshow(out_image, origin='lower')
+plt.show()
 
-tifffile.imsave("perfect.tif", out_image.astype(np.float32))
+tifffile.imwrite("perfect.tif", out_image.astype(np.float32))
 
 
-print("boop")
+print("Beep boop. All done!")
 

@@ -1,3 +1,13 @@
+###############################################################################
+#
+# utils.py
+#
+# Created by Jonathan J. P. Peters
+#
+# Utilities for generating a STEM-like image, mostly maths/geometry
+#
+###############################################################################
+
 import numpy as np
 import scipy.interpolate as sci_interp
 import matplotlib.pyplot as plt
@@ -50,7 +60,8 @@ def generate_rotation_matrix(rotation_deg):
 
 
 #
-# This uses affine transformation to calculate how much we need to tile the a and b vecs to cover an area (image_size)
+# This uses affine transformation to calculate how much we need to tile
+# the a and b vecs to cover a square area (image_size)
 #
 def calculate_tiling(image_size, a_vec, b_vec, rotation_mat, scale):
 
