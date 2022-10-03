@@ -1,5 +1,14 @@
-#!/usr/bin/python
-"""Python module for parsing GATAN DM3 files"""
+###############################################################################
+#
+# read_dm3.py
+#
+# This is used to read DigitalMicrograph data (.dm3 and .dm4)
+# copied from sources below
+#
+# I (Jonathan J. P. Peters) may have modified this slightly, but frankly I have
+# forgotten
+#
+###############################################################################
 
 ###############################################################################
 # Python script for parsing GATAN DM3 (DigitalMicrograph) files

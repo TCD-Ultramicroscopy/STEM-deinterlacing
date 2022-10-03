@@ -1,3 +1,13 @@
+###############################################################################
+#
+# pyGPA.py
+#
+# Created by Jonathan J. P. Peters
+#
+# This file contains code the run the GPA method on an image.
+#
+###############################################################################
+
 from __future__ import division
 import numpy as np
 from scipy.signal import convolve2d
